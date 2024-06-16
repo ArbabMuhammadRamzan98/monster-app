@@ -4,6 +4,7 @@ import Search from './components/Search';
 import './App.css';
 
 class App extends React.Component {
+  // Inislize the constructor 
   constructor() {
     super();
     this.state = {
@@ -12,6 +13,7 @@ class App extends React.Component {
       bgColor: "red"
     }
   }
+  // End the construtor
   componentDidMount(){
     fetch('https://jsonplaceholder.typicode.com/users')
     .then(response => response.json())
