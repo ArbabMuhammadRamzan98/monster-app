@@ -1,25 +1,44 @@
-import logo from './logo.svg';
+import React from 'react';
+import CardList from './components/card-lists'
+import Search from './components/Search';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      monters: [],
+      searchedMonster: 'sar',
+      bgColor: "red"
+    }
+  }
+  componentDidMount(){
+    fetch('https://jsonplaceholder.typicode.com/users')
+    .then(response => response.json())
+    .then(data => this.setState({
+      monters: data
+    }));
+  }
+
+ searchFunction= (e) => this.setState({
+    searchedMonster: e.target.value
+  })
+  
+// This is the comment to test that new changes is coming or not
+  render() {
+    const filterMonsters = this.state.monters.filter(monster => monster.name.includes(this.state.searchedMonster))
+    return (
+      <div className="App" style={{backgroundColor: this.state.bgColor}}>
+        <h1>Monsters Rolodex</h1>
+        <Search searchFunction={this.searchFunction} />
+        <CardList monstersLists = {filterMonsters} />
+        <button onClick={() => this.setState({
+          bgColor: "green"
+        })}>ClickMe</button>
+      </div>
+    )
+  }
+
 }
 
 export default App;
